@@ -13,7 +13,14 @@ function Login() {
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(loginUser(user))
+        dispatch(loginUser({
+            credentials: user,
+            meta: {
+                onSuccess: () => {
+                    history.push('/')
+                }
+            }
+        }))
     }
     
     
