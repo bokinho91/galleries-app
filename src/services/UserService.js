@@ -1,11 +1,17 @@
 import HttpService from "./HttpService";
 
 class UserService extends HttpService {
-getAll = async () =>{
-    const { data } = await this.client.get("register");
+registerUser = async (userData) =>{
+    
+    const { data } = await this.client.post("register", userData);
     return data;
   }
 
+
+  loginUser = async (userData) =>{
+    const { data } = await this.client.post("login", userData);
+    return data;
+  }
 }
 
 const userService = new UserService();

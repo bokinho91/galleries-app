@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import Nav from './components/Nav';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 
 function App() {
@@ -15,8 +17,12 @@ function App() {
             <div className="container">
             <Switch>
                 
-                <Route path='/' exact>
-                    
+                <Route path='/register' exact>
+                    <Register/>
+                </Route>
+
+                <Route path='/login' exact>
+                    <Login/>
                 </Route>
 
                 <Route path='/' redirect exact>
