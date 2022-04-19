@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { selectToken } from '../store/users/selector'
-import { removeUserToken } from '../store/users/slice'
+import { logoutUser } from '../store/users/slice'
 
 
 function Nav() {
@@ -11,9 +11,14 @@ function Nav() {
     const history = useHistory()
     const haveToken = useSelector(selectToken)
 
-    const handleLogout = () =>{
-        dispatch(removeUserToken())
-        history.push("/")
+  const  handleLogOut = () => {
+        dispatch(logoutUser({
+            meta: {
+                onSuccess: () => {
+                    history.push("/")
+                }
+            }
+        }))
     }
 
   return (
@@ -23,13 +28,13 @@ function Nav() {
                 <Link to="/" className="nav-link text-white">All Galleries</Link>
             </li>
 
-            {!haveToken &&
+            {haveToken &&
             <li className="nav-item">
                 <Link to="/my-galleries" className="nav-link text-white">My Galleries</Link>
             </li>
             }
 
-            {!haveToken &&
+            {haveToken &&
             <li className="nav-item">
                 <Link to="/create" className="nav-link text-white">Create New Gallery</Link>
             </li>
@@ -49,7 +54,7 @@ function Nav() {
             
             {haveToken &&
             <li className="nav-item">
-                <button onClick={handleLogout} className="btn btn-danger">Logout</button>
+                <button onClick={handleLogOut} className="btn btn-danger">Logout</button>
             </li>
             }
         

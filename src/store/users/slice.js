@@ -4,7 +4,6 @@ const middlewareActions = {
     registerUser: () => {},
     loginUser: () => {},
     logoutUser: () => {},
-    saveToken: () => {},
 };
 
 
@@ -24,7 +23,7 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { saveToken, 
+export const { 
                 setUserToken, 
                 removeUserToken,
                 registerUser,

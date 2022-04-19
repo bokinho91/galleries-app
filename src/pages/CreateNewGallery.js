@@ -1,32 +1,30 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectImagesList } from '../store/galleries/selector'
 import { addNewGallery } from '../store/galleries/slice'
 
 
 function CreateNewGallery() {
     const dispatch = useDispatch()
-    
+    const [image, setImage] = useState("")
+
     const [newGallery, setNewGallery] = useState({
         title:"",
         description:"",
-        images_url:[]
+        images_url:[""]
     })
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        setNewGallery({...newGallery, images_url: [...newGallery.images_url, image]})
+
         console.log(newGallery);
-        dispatch(addNewGallery(newGallery))
+        //dispatch(addNewGallery(newGallery))
     }
 
     const addInputField = () => {
-        const inputContainer = document.getElementById("inputFields")
-
-        inputContainer.innerHTML += `<div class="form-group">
-                                    <input required
-                                    onChange=${({target})=>setNewGallery({...newGallery, images_url: [...newGallery.images_url, target.value]})}
-                                    type="text" class="form-control" placeholder="ex. http://placeimg.com/640/480/city.png"/>
-                                    </div>`
-
+            setNewGallery({...newGallery, images_url: [...newGallery.images_url, image]})
+        
     }
 
   return (
@@ -46,19 +44,19 @@ function CreateNewGallery() {
                 </textarea>
             </div>
 
-            <div className="form-group">
-
+            
                 <label htmlFor="title">Image URL:</label>
-                <div id="inputFields">
+                {newGallery.images_url.map((img,index)=>(
+                    <div key={index} className="form-group">
+                        <input value={newGallery.images_url[index+1]} type="text" onChange={({target})=> setImage(target.value)} className='form-control' name="" id="" />
+                        <button className='btn btn-info'>;arrowup;</button>
+                    </div>
+                ))}
+            
 
-                <div className="form-group">
-                <input required value={newGallery.images_url[0]} onChange={({target})=>setNewGallery({...newGallery, images_url: [...newGallery.images_url, target.value]})} type="text" className="form-control" placeholder="ex. http://placeimg.com/640/480/city.png" id="title"/>
                 
-                </div>
-
-                </div>
-                <button onClick={addInputField} type='button' className='btn btn-success mt-2'>Add another URL</button>
-            </div>
+                <button onClick={addInputField} type='button' className='btn btn-success m-2 d-block'>Add another URL</button>
+            
             
             <button type="submit" className="btn btn-primary">Add Gallery</button>
         </form>

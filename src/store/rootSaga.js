@@ -1,9 +1,10 @@
-import * as userSaga from "./users/saga"
+import userSaga from "./users/saga"
 import * as gallerySaga from "./galleries/saga"
 
+
 const sagas = {
-    ...userSaga,
-    ...gallerySaga
+    userSaga,
+    ...gallerySaga,
 };
 
 

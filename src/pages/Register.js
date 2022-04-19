@@ -19,6 +19,7 @@ const [newUser, setNewUser] = useState({
 
 const handleSubmit = (e) => {
     e.preventDefault()
+    
     dispatch(registerUser({
         credentials: newUser,
         meta: {
@@ -27,6 +28,7 @@ const handleSubmit = (e) => {
             }
         }
     }))
+
 }
 
 

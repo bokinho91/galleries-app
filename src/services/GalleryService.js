@@ -11,6 +11,13 @@ getAll = async () =>{
       return data;
   }
 
+  getOneGallery = async (id) => {
+    
+    const {data }= await this.client.get(`gallery/${id}`)
+    console.log(data);
+    return data
+  }
+
 
 
 }
