@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { registerUser } from '../store/users/slice'
 
 
 function Register() {
 const dispatch = useDispatch()
+const history = useHistory()
 
 const [newUser, setNewUser] = useState({
     first_name:"",
@@ -17,7 +19,14 @@ const [newUser, setNewUser] = useState({
 
 const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(registerUser(newUser))
+    dispatch(registerUser({
+        credentials: newUser,
+        meta: {
+            onSuccess: () => {
+                history.push("/")
+            }
+        }
+    }))
 }
 
 

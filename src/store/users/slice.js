@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const middlewareActions = {
     registerUser: () => {},
     loginUser: () => {},
+    logoutUser: () => {},
     saveToken: () => {},
 };
 
@@ -14,16 +15,20 @@ export const usersSlice = createSlice({
   },
   reducers: {
     setUserToken: (state, action) => {
-        console.log(action.payload);
         state.userToken = action.payload;
       },
+    removeUserToken: (state) => {
+        state.userToken = ""
+    },
     ...middlewareActions,
   },
 });
 
 export const { saveToken, 
                 setUserToken, 
+                removeUserToken,
                 registerUser,
-                loginUser} = usersSlice.actions;
+                loginUser,
+                logoutUser} = usersSlice.actions;
 
 export default usersSlice.reducer; 

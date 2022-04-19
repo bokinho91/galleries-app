@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { loginUser } from '../store/users/slice'
 
 
 function Login() {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const [user, setUser] = useState({
         email:"",
@@ -17,7 +19,7 @@ function Login() {
             credentials: user,
             meta: {
                 onSuccess: () => {
-                    history.push('/')
+                    history.push("/home")
                 }
             }
         }))
@@ -41,7 +43,7 @@ function Login() {
                     onChange={({target})=>setUser({...user, password: target.value})} type="password" className="form-control" placeholder="Enter password" id="pwd"/>
                 </div>
                
-                <button type="submit" className="btn btn-primary">Register</button>
+                <button type="submit" className="btn btn-primary">Log In</button>
             </form>
         </div>
         </div>  
