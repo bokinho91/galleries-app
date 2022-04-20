@@ -7,7 +7,11 @@ getAllGalleryComments = async (id) =>{
         return data;
   }
 
- 
+addNewComment= async (body) =>{
+  
+  const { data } = await this.client.post('comment',body);
+  return data;
+}
 
 
 }

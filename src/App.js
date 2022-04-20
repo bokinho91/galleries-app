@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Nav from './components/Nav';
 import Galleries from './pages/Galleries';
@@ -9,12 +9,23 @@ import { Redirect } from 'react-router-dom';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import CreateNewGallery from './pages/CreateNewGallery';
 import SingleGallery from './pages/SingleGallery';
-import { useSelector } from 'react-redux';
-import { selectToken } from './store/users/selector';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectActiveUser, selectToken } from './store/users/selector';
+import MyGallery from './pages/MyGallery';
+import { getActiveUser } from './store/users/slice';
+
 
 function App() {
-
-  const haveToken = useSelector(selectToken)
+  const dispatch = useDispatch()
+  const token = useSelector(selectToken)
+  const isAuthenticated = !!token;
+  const activeUser = useSelector(selectActiveUser)
+  if(activeUser){
+    console.log(activeUser);
+  }
+  useEffect(() => {
+    dispatch(getActiveUser())
+  }, []);
   return (
     <div className="App">
           <Router>
@@ -29,23 +40,23 @@ function App() {
 
                 
                 <Route path='/register' exact>
-                    {!haveToken ? <Register/> : <Redirect to="/" />}
+                    {!isAuthenticated ? <Register/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/login' exact>
-                    {!haveToken ? <Login/> : <Redirect to="/" />}
+                    {!isAuthenticated ? <Login/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/create' exact>
-                {haveToken ? <CreateNewGallery/> : <Redirect to="/" />}
+                {isAuthenticated ? <CreateNewGallery/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/galleries/:id' exact>
-                {haveToken ? <SingleGallery/> : <Redirect to="/" />}
+                {isAuthenticated ? <SingleGallery/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/:myGalleries' exact>
-                {haveToken ? <Galleries/> : <Redirect to="/" />}
+                {isAuthenticated ? <MyGallery/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/' redirect exact>

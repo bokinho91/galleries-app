@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
+import AddComment from '../components/AddComment'
 import Comments from '../components/Comments'
 import { getComments } from '../store/comments/slice'
 import { selectSingleGallery } from '../store/galleries/selector'
@@ -12,7 +13,6 @@ function SingleGallery() {
     const {id} = useParams()
     const dispatch = useDispatch()
     const gallery = useSelector(selectSingleGallery)
-
     useEffect(() => {
       dispatch(getSingleGallery(id))
       dispatch(getComments(id))
@@ -22,7 +22,9 @@ function SingleGallery() {
   return (
     <div>
        
+       {gallery &&
         <h1>{gallery.title}</h1>
+      }
     
         
         <p>
@@ -59,7 +61,8 @@ function SingleGallery() {
 
 
                 <Comments/>
-      
+                <hr/>
+                <AddComment/>
     </div>
   )
 }

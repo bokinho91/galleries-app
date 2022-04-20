@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const middlewareActions = {
     getAllGalleries: () =>{},
     addNewGallery: () => {},
-    getSingleGallery: () => {}
+    getSingleGallery: () => {},
+    getMyGalleries: () => {},
 };
 
 
@@ -12,7 +13,9 @@ export const galleriesSlice = createSlice({
   initialState: {
     galleriesList:[],
     pageNum:1,
-    singleGallery:{}
+    currPage:0,
+    singleGallery:{},
+    myGalleries:[]
   },
   reducers: {
     setGalleriesList: (state,action) => {
@@ -31,6 +34,12 @@ export const galleriesSlice = createSlice({
     setSingleGallery: (state,action) =>{
       state.singleGallery = action.payload
     },
+    setMyGalleries: (state,action) => {
+      state.myGalleries= action.payload
+    },
+    setCurrPage: (state, action) =>{
+      state.currPage=action.payload
+    },
     ...middlewareActions,
   },
 });
@@ -41,6 +50,9 @@ export const { getAllGalleries,
                 pageNumberIncrement,
                 addNewGallery,
                 getSingleGallery,
-                setSingleGallery} = galleriesSlice.actions;
+                setSingleGallery,
+                setCurrPage,
+                getMyGalleries,
+                setMyGalleries} = galleriesSlice.actions;
 
 export default galleriesSlice.reducer; 

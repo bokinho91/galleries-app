@@ -14,28 +14,24 @@ const galleriesListLength = useSelector(selectGalleriesListLength)
     <div>
 
         <strong>Page number {pageNum}</strong>
-        <nav aria-label="Page navigation example">
-            <ul className="pagination">
-                {pageNum>1 &&
-                <li className="page-item">
-                
-                <button className="page-link" onClick={()=>dispatch(pageNumberDecrement())}>
-                    <span aria-hidden="true">&laquo; 10 less</span>
-                    <span className="sr-only">Previous</span>
+        
+              <div className="load-more">
+
+                {galleriesListLength<pageNum*10 &&
+                <button className="btn btn-success"  onClick={()=>dispatch(pageNumberDecrement())}>
+                   Load less galleries
                 </button>
-                </li>
                 }
-            
+
                 {galleriesListLength>pageNum*10 &&
-                <li className="page-item">
-                <button className="page-link" href="#" aria-label="Next" onClick={()=>dispatch(pageNumberIncrement())}>
-                    <span aria-hidden="true">10 more &raquo;</span>
-                    <span className="sr-only">Next</span>
+                <button className="btn btn-success"  onClick={()=>dispatch(pageNumberIncrement())}>
+                   Load more galleries
                 </button>
-                </li>
                 }
-            </ul>
-        </nav>
+
+              </div>
+           
+        
     </div>
   )
 }

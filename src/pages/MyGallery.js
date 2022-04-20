@@ -1,24 +1,24 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Pagination from '../components/Pagination';
-import { selectGalleries } from '../store/galleries/selector';
-import { getAllGalleries } from '../store/galleries/slice';
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Pagination from '../components/Pagination'
+import { selectMyGalleries } from '../store/galleries/selector'
+import { getMyGalleries } from '../store/galleries/slice'
 
 
-function Galleries() {
-  const dispatch = useDispatch()
-  const galleriesList = useSelector(selectGalleries)
-  
- 
+
+function MyGallery() {
+const dispatch = useDispatch()
+const galleriesList =useSelector(selectMyGalleries)
 useEffect(() => {
-    dispatch(getAllGalleries()) 
+  dispatch(getMyGalleries())
 }, [])
-  
+
 
 
   return (
     <div>
+      <div>
     <div className='row d-flex justify-content-center pl-2 pr-2'>
        {galleriesList ? 
        
@@ -39,7 +39,8 @@ useEffect(() => {
       </div>
     
     </div>
+    </div>
   )
 }
 
-export default Galleries
+export default MyGallery

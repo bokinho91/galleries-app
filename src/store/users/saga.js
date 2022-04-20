@@ -1,7 +1,6 @@
 import {call, put, takeLatest} from "redux-saga/effects"
 import userService from "../../services/UserService";
-import { loginUser, logoutUser, registerUser, removeUserToken, setUserToken } from "./slice";
-
+import { getActiveUser, loginUser, logoutUser, registerUser, removeUserToken, setActiveUser, setUserToken } from "./slice";
 
 
 function* registerNewUser(action) {
@@ -23,8 +22,8 @@ function* registerNewUser(action) {
 
 function* login(action) {
     try {
-        const data = yield call(userService.loginUser, action.payload.credentials)
-        yield put(setUserToken(data.token))
+        yield call(userService.loginUser, action.payload.credentials)
+        yield put(setUserToken())
 
             if (action.payload.meta.onSuccess) {
                 yield call(action.payload.meta.onSuccess)
@@ -49,7 +48,14 @@ function* logout(action) {
     }
 }
 
+function* handleGetActiveUser() {
+    try {
+        const activeUser = yield call(userService.getActiveUser) // GET /api/my-profile
+        yield put(setActiveUser(activeUser))
+    }catch{
 
+    }
+}
 
 
 
@@ -57,5 +63,6 @@ export default function* watchForSagas(){
     yield takeLatest(registerUser.type, registerNewUser)
     yield takeLatest(loginUser.type, login)
     yield takeLatest(logoutUser.type, logout)
+    yield takeLatest(getActiveUser.type, handleGetActiveUser)
 
 }

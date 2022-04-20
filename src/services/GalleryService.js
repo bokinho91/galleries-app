@@ -2,15 +2,11 @@ import HttpService from "./HttpService";
 
 class GalleryService extends HttpService {
 
-getAll = async (id) =>{
-    if(id){
-        const { data } = await this.client.get("mygallery");
-        console.log(data);
-        return data;
-    }else{
+getAll = async () =>{
+    
         const { data } = await this.client.get("gallery");
         return data;
-    }
+    
   }
 
   createGallery = async (newGallery) => {
@@ -21,9 +17,16 @@ getAll = async (id) =>{
   getOneGallery = async (id) => {
     
     const {data }= await this.client.get(`gallery/${id}`)
-    console.log(data);
+    //console.log(data);
     return data
   }
+
+  getMyGalleries= async () =>{
+    
+    const { data } = await this.client.get("mygallery");
+    return data;
+
+}
 
 
 

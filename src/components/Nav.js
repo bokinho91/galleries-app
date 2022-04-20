@@ -2,15 +2,13 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { selectToken, selectUserFromToken } from '../store/users/selector'
+import { selectToken} from '../store/users/selector'
 import { logoutUser } from '../store/users/slice'
-import jwt_decode from 'jwt-decode'
 
 function Nav() {
     const dispatch = useDispatch()
     const history = useHistory()
     const haveToken = useSelector(selectToken)
-    const token = useSelector(selectUserFromToken)
     
 
   const  handleLogOut = () => {

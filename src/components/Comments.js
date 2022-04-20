@@ -4,13 +4,18 @@ import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
 import { selectComments } from '../store/comments/selector'
 import { getComments } from '../store/comments/slice'
+import { selectToken } from '../store/users/selector'
 
 
 function Comments() {
     const comments = useSelector(selectComments)
     const {id} = useParams()
     const dispatch = useDispatch()
+    const haveToken = useSelector(selectToken)
 
+    if(haveToken){
+        
+    }
 
     useEffect(() => {
       dispatch(getComments(id))
