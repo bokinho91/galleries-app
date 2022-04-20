@@ -2,14 +2,16 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { selectToken } from '../store/users/selector'
+import { selectToken, selectUserFromToken } from '../store/users/selector'
 import { logoutUser } from '../store/users/slice'
-
+import jwt_decode from 'jwt-decode'
 
 function Nav() {
     const dispatch = useDispatch()
     const history = useHistory()
     const haveToken = useSelector(selectToken)
+    const token = useSelector(selectUserFromToken)
+    
 
   const  handleLogOut = () => {
         dispatch(logoutUser({
@@ -22,7 +24,7 @@ function Nav() {
     }
 
   return (
-    <div className='bg-dark mb-2 p-2'>
+    <div className='bg-dark mb-2 p-2 d-flex justify-content-between'>
         <ul className="nav">
             <li className="nav-item">
                 <Link to="/" className="nav-link text-white">All Galleries</Link>
@@ -52,15 +54,16 @@ function Nav() {
             </li>
             }
             
-            {haveToken &&
-            <li className="nav-item">
-                <button onClick={handleLogOut} className="btn btn-danger">Logout</button>
-            </li>
-            }
         
 
         </ul>
 
+            <div className="user-data">
+        
+            {haveToken &&
+                <button onClick={handleLogOut} className="btn btn-danger ml-5">Logout</button>
+            }
+            </div>
     </div>
   )
 }

@@ -6,7 +6,7 @@ import { addNewGallery } from '../store/galleries/slice'
 
 function CreateNewGallery() {
     const dispatch = useDispatch()
-    const [image, setImage] = useState("")
+    const [images, setImages] = useState([])
 
     const [newGallery, setNewGallery] = useState({
         title:"",
@@ -16,15 +16,28 @@ function CreateNewGallery() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setNewGallery({...newGallery, images_url: [...newGallery.images_url, image]})
-
-        console.log(newGallery);
+        
         //dispatch(addNewGallery(newGallery))
     }
 
     const addInputField = () => {
-            setNewGallery({...newGallery, images_url: [...newGallery.images_url, image]})
-        
+           
+    }
+
+    function editImageUrl(image, url) {
+        const index = images.findIndex((img) => img == image);
+        console.log({
+          images,
+          index,
+          image,
+          url,
+        });
+        setImages([
+          ...images.slice(0, index),
+          { image_url: url },
+          ...images.slice(index + 1, images.length),
+        ]);
+
     }
 
   return (
@@ -47,9 +60,9 @@ function CreateNewGallery() {
             
                 <label htmlFor="title">Image URL:</label>
                 {newGallery.images_url.map((img,index)=>(
-                    <div key={index} className="form-group">
-                        <input value={newGallery.images_url[index+1]} type="text" onChange={({target})=> setImage(target.value)} className='form-control' name="" id="" />
-                        <button className='btn btn-info'>;arrowup;</button>
+                    <div key={index} className="form-group d-flex">
+                        <input value={newGallery.images_url[index+1]} type="text" onChange={({target})=> editImageUrl(img,target.value)} className='form-control w-75' name="" id="" />
+                        <button type='button' className='btn btn-info ml-2'>&uarr;</button>
                     </div>
                 ))}
             

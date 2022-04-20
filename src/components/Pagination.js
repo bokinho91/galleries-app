@@ -26,7 +26,7 @@ const galleriesListLength = useSelector(selectGalleriesListLength)
                 </li>
                 }
             
-                {galleriesListLength>10 &&
+                {galleriesListLength>pageNum*10 &&
                 <li className="page-item">
                 <button className="page-link" href="#" aria-label="Next" onClick={()=>dispatch(pageNumberIncrement())}>
                     <span aria-hidden="true">10 more &raquo;</span>

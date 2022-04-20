@@ -12,25 +12,25 @@ function Galleries() {
   const dispatch = useDispatch()
   const galleriesList = useSelector(selectGalleries)
   
-
+ 
 useEffect(() => {
-    dispatch(getAllGalleries()) 
+    dispatch(getAllGalleries(myGalleries)) 
 }, [])
   
 
 
   return (
     <div>
-    <div className='row d-flex justify-content-center'>
-       {galleriesList.length > 0 ? 
+    <div className='row d-flex justify-content-center pl-2 pr-2'>
+       {galleriesList ? 
        
        galleriesList.map(gallery=>(
-          <div className="card border-dark col-md-3 m-2" key={gallery.id}>
+          <div className="card border-dark col-lg-2 col-sm-4 m-2" key={gallery.id}>
               <Link to={`/galleries/${gallery.id}`}><h2>{gallery.title}</h2></Link>
               <div className="image">
               <img className='image-src' src={gallery.images[0].image_url} alt="" />
               </div>
-              <p><small>Author:</small> <Link to={`/authors/${gallery.user_id}`}><strong>{gallery.user.first_name+ " "+ gallery.user.last_name}</strong></Link></p>
+              <p><small className='d-block text-center'>Author:</small> <Link to={`/authors/${gallery.user_id}`}><strong>{gallery.user.first_name+ " "+ gallery.user.last_name}</strong></Link></p>
               <p className='text-center'>{gallery.created_at}</p>
           </div>
        )) : <p>There is no Galleries to show</p>}

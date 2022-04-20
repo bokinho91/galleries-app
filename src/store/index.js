@@ -1,15 +1,16 @@
 import { configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import usersReducer from "./users/slice";
+import commentsReducer from "./comments/slice";
 import galleriesReducer from "./galleries/slice";
 import createSagaMiddleware from 'redux-saga';
 import sagas from './rootSaga';
 const sagaMiddleware = createSagaMiddleware();
 
-
 export default configureStore({
   reducer: {
     users: usersReducer,
-    galleries: galleriesReducer
+    galleries: galleriesReducer,
+    comments: commentsReducer
   },
   middleware : [
     ...getDefaultMiddleware(

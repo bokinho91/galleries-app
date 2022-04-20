@@ -1,1 +1,2 @@
-export const selectToken = state => state.users.userToken ? true : false
+export const selectToken = () => localStorage.getItem('token') ? true : false
+export const selectUserFromToken = () => localStorage.getItem('token')

@@ -4,10 +4,9 @@ import { addNewGallery, getAllGalleries, getSingleGallery, setGalleriesList, set
 
 
 
-function* allGalleries() {
+function* allGalleries(action) {
     try {
-        const data = yield call(galleryService.getAll)
-        
+        const data = yield call(galleryService.getAll,action.payload)
         yield put(setGalleriesList(data))
         } catch (error) {
             

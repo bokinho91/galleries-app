@@ -9,8 +9,12 @@ import { Redirect } from 'react-router-dom';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import CreateNewGallery from './pages/CreateNewGallery';
 import SingleGallery from './pages/SingleGallery';
+import { useSelector } from 'react-redux';
+import { selectToken } from './store/users/selector';
 
 function App() {
+
+  const haveToken = useSelector(selectToken)
   return (
     <div className="App">
           <Router>
@@ -25,23 +29,23 @@ function App() {
 
                 
                 <Route path='/register' exact>
-                    <Register/>
+                    {!haveToken ? <Register/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/login' exact>
-                    <Login/>
+                    {!haveToken ? <Login/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/create' exact>
-                    <CreateNewGallery/>
+                {haveToken ? <CreateNewGallery/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/galleries/:id' exact>
-                    <SingleGallery/>
+                {haveToken ? <SingleGallery/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/:myGalleries' exact>
-                    <Galleries/>
+                {haveToken ? <Galleries/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/' redirect exact>

@@ -1,8 +1,10 @@
+
 .card{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
 }
 
 .image{
@@ -11,4 +13,12 @@
 
 .image-src{
   width: 100%;
+}
+
+.user-data{
+  color: white;
+}
+
+.carousel-inner{
+  height: 60vh !important;
 }
