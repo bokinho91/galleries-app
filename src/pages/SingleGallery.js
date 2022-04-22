@@ -22,9 +22,9 @@ function SingleGallery() {
   return (
     <div>
        
-       {gallery &&
+       
         <h1>{gallery.title}</h1>
-      }
+      
     
         
         <p>
@@ -43,7 +43,7 @@ function SingleGallery() {
                     <div className="carousel-inner">
                         {gallery.images &&
                             gallery.images.map((image,index)=>(
-                                <div key={image.id} className={`carousel-item ${index==0 ? 'active' :'' }`}>
+                                <div key={image.id} className={`carousel-item ${index===0 ? 'active' :'' }`}>
                                     <img className="d-block w-100" src={image.image_url} alt="First slide"/>
                                 </div>
                             ))

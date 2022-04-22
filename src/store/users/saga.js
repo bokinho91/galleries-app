@@ -1,6 +1,13 @@
 import {call, put, takeLatest} from "redux-saga/effects"
 import userService from "../../services/UserService";
-import { getActiveUser, loginUser, logoutUser, registerUser, removeUserToken, setActiveUser, setUserToken } from "./slice";
+import { getActiveUser, 
+        loginUser, 
+        logoutUser, 
+        registerUser, 
+        removeUserToken, 
+        setActiveUser, 
+        setUserToken,
+     } from "./slice";
 
 
 function* registerNewUser(action) {
@@ -50,8 +57,9 @@ function* logout(action) {
 
 function* handleGetActiveUser() {
     try {
-        const activeUser = yield call(userService.getActiveUser) // GET /api/my-profile
+        const activeUser = yield call(userService.getActiveUser) 
         yield put(setActiveUser(activeUser))
+        yield put(setUserToken())
     }catch{
 
     }

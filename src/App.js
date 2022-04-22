@@ -10,21 +10,21 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import CreateNewGallery from './pages/CreateNewGallery';
 import SingleGallery from './pages/SingleGallery';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectActiveUser, selectToken } from './store/users/selector';
-import MyGallery from './pages/MyGallery';
+import { selectToken } from './store/users/selector';
+import MyGalleries from './pages/MyGalleries';
 import { getActiveUser } from './store/users/slice';
-
+import GalleriesByAuthor from './pages/GalleriesByAuthor';
 
 function App() {
   const dispatch = useDispatch()
   const token = useSelector(selectToken)
-  const isAuthenticated = !!token;
-  const activeUser = useSelector(selectActiveUser)
-  if(activeUser){
-    console.log(activeUser);
-  }
+  const isAuthenticated = token;
+  
+  
   useEffect(() => {
-    dispatch(getActiveUser())
+    if(localStorage.key("token")){
+      dispatch(getActiveUser())
+    }
   }, []);
   return (
     <div className="App">
@@ -51,12 +51,16 @@ function App() {
                 {isAuthenticated ? <CreateNewGallery/> : <Redirect to="/" />}
                 </Route>
 
+                {/* <Route path='/authors/:id' exact>
+                {isAuthenticated ? <GalleriesByAuthor/> : <Redirect to="/" />}
+                </Route> */}
+
                 <Route path='/galleries/:id' exact>
                 {isAuthenticated ? <SingleGallery/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/:myGalleries' exact>
-                {isAuthenticated ? <MyGallery/> : <Redirect to="/" />}
+                {isAuthenticated ? <MyGalleries/> : <Redirect to="/" />}
                 </Route>
 
                 <Route path='/' redirect exact>

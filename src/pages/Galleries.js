@@ -1,24 +1,31 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Pagination from '../components/Pagination';
-import { selectGalleries } from '../store/galleries/selector';
-import { getAllGalleries } from '../store/galleries/slice';
+import { selectGalleries, selectPageNumber } from '../store/galleries/selector';
+import { loadGalleries } from '../store/galleries/slice';
 
 
 function Galleries() {
   const dispatch = useDispatch()
   const galleriesList = useSelector(selectGalleries)
-  
- 
-useEffect(() => {
-    dispatch(getAllGalleries()) 
-}, [])
+  const pageNumber = useSelector(selectPageNumber)
+
+  useEffect(() => {
+      dispatch(loadGalleries(pageNumber)) 
+  }, [])
   
 
 
   return (
     <div>
+
+    <div className="filter">
+      <div className="input-group rounded mb-5">
+        <input value={searched} onChange={({target})=>dispatch(setSearchedText(target.value))} style={{height: "50px"}} type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <button className="btn btn-success">Filter</button>
+      </div>
+    </div>
+
     <div className='row d-flex justify-content-center pl-2 pr-2'>
        {galleriesList ? 
        
@@ -34,9 +41,14 @@ useEffect(() => {
        )) : <p>There is no Galleries to show</p>}
       </div>
 
-      <div className="row">
-       <Pagination/>
-      </div>
+      {galleriesList  &&
+            <div className="load-more"> 
+               <button className="btn btn-success"  onClick={()=>dispatch(loadGalleries(pageNumber))}>
+                  Load more galleries
+               </button>
+            </div>
+}
+    
     
     </div>
   )

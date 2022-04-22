@@ -3,7 +3,6 @@ import HttpService from "./HttpService";
 class UserService extends HttpService {
 getActiveUser = async ()=>{
   const {data} = await this.client.get('myprofile')
-  console.log(data);
   return data;
 }
 

@@ -2,30 +2,39 @@ import HttpService from "./HttpService";
 
 class GalleryService extends HttpService {
 
-getAll = async () =>{
-    
-        const { data } = await this.client.get("gallery");
+getAll = async (pageNum) =>{
+        const { data } = await this.client.get(`galleries?page_number=${pageNum}`);
         return data;
     
   }
 
+  getTenMore = async (pageNumber) =>{
+    const { data } = await this.client.get(`load_more/${pageNumber}`);
+    return data;
+
+}
+
+
   createGallery = async (newGallery) => {
-      const {data} = await this.client.post("gallery", newGallery)
+    console.log(newGallery);
+      const {data} = await this.client.post("galleries", newGallery)
       return data;
   }
 
   getOneGallery = async (id) => {
-    
-    const {data }= await this.client.get(`gallery/${id}`)
-    //console.log(data);
+    const {data }= await this.client.get(`galleries/${id}`)
     return data
   }
 
-  getMyGalleries= async () =>{
-    
-    const { data } = await this.client.get("mygallery");
-    return data;
+  getMyGalleries= async (pageNum) =>{
+    const { data } = await this.client.get(`my_galleries?page_number=${pageNum}`);
+    return data
+}
 
+
+getAuthorsGalleries= async (req) =>{ 
+  const { data } = await this.client.get(`authors?page_number=${req.pageNumber}&author_id=${req.id}`);
+  return data
 }
 
 

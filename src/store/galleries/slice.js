@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const middlewareActions = {
-    getAllGalleries: () =>{},
+    loadGalleries: () =>{},
     addNewGallery: () => {},
     getSingleGallery: () => {},
     getMyGalleries: () => {},
+    getAuthorsGalleries: () => {},
+    emptyAuthorsGalleries: () => {},
 };
 
 
@@ -12,47 +14,66 @@ export const galleriesSlice = createSlice({
   name: "galleries",
   initialState: {
     galleriesList:[],
-    pageNum:1,
-    currPage:0,
+    pageNum:0,
     singleGallery:{},
-    myGalleries:[]
+    myGalleries:[],
+    myGallPageNum:0,
+    authorsGalleries:[],
+    authorsGallPageNum:0,
+    authorId:0
   },
   reducers: {
     setGalleriesList: (state,action) => {
-        state.galleriesList= action.payload
+        state.galleriesList = [...state.galleriesList, ...action.payload]
     },
+
     pageNumberIncrement: (state)=> {
-        if(state.pageNum*10 < state.galleriesList.length){
           state.pageNum += 1
-        }
       },
-    pageNumberDecrement: (state)=> {
-        if(state.pageNum>1){
-          state.pageNum-=1
-        }
+    myGallPageNumIncrement: (state)=> {
+          state.myGallPageNum+=1
     },
+    authorsGallPageNumIncrement: (state)=> {
+      state.authorsGallPageNum+=1
+},
     setSingleGallery: (state,action) =>{
       state.singleGallery = action.payload
     },
     setMyGalleries: (state,action) => {
-      state.myGalleries= action.payload
+      state.myGalleries= [...state.myGalleries, ...action.payload]
     },
-    setCurrPage: (state, action) =>{
-      state.currPage=action.payload
+    setAuthorsGalleries: (state,action) => {
+      state.authorsGalleries = [...state.authorsGalleries, ...action.payload]
+    },
+    setAuthorsGalleriesEmpty: (state) =>{
+      state.authorsGalleries= []
+    },
+    resetAuthorsPageNum: (state) =>{
+      state.authorsGallPageNum = 0
+    },
+    setAuthorId: (state,action) => {
+      state.authorId = action.payload
     },
     ...middlewareActions,
   },
 });
 
-export const { getAllGalleries,
+export const { loadGalleries,
                 setGalleriesList,
-                pageNumberDecrement,
+                myGallPageNumIncrement,
+                authorsGallPageNumIncrement,
                 pageNumberIncrement,
                 addNewGallery,
                 getSingleGallery,
                 setSingleGallery,
-                setCurrPage,
                 getMyGalleries,
-                setMyGalleries} = galleriesSlice.actions;
+                setMyGalleries,
+                getAuthorsGalleries,
+                setAuthorsGalleries,
+                setAuthorId,
+                setAuthorsGalleriesEmpty,
+                emptyAuthorsGalleries,
+                resetAuthorsPageNum,
+              } = galleriesSlice.actions;
 
 export default galleriesSlice.reducer; 

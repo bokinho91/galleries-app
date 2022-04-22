@@ -4,18 +4,16 @@ import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
 import { selectComments } from '../store/comments/selector'
 import { getComments } from '../store/comments/slice'
-import { selectToken } from '../store/users/selector'
+import { selectActiveUser} from '../store/users/selector'
 
 
 function Comments() {
     const comments = useSelector(selectComments)
     const {id} = useParams()
     const dispatch = useDispatch()
-    const haveToken = useSelector(selectToken)
-
-    if(haveToken){
-        
-    }
+    const activeUser = useSelector(selectActiveUser)
+    console.log('active user ' + activeUser.id);
+    
 
     useEffect(() => {
       dispatch(getComments(id))
@@ -28,7 +26,7 @@ function Comments() {
         {comments.length>0 ?
 
             comments.map(comment=>(
-                <div key={comment.id} className="card mb-2 p-2 text-left d-fex w-50">
+                <div key={comment.id} className="card mb-2 p-2 text-left d-fex w-80">
                     <div className="card-detail d-flex justify-content-between align-items-center w-100">
                         <div className="author">
                             <small className='mr-2'>Author:</small>
@@ -44,6 +42,13 @@ function Comments() {
                         <div className="created-at">
                             {comment.created_at}
                         </div>
+
+                        {activeUser.id===comment.user_id &&
+                        <div className="buttons">
+                            <button className="btn btn-info mr-2">Edit</button>
+                            <button className="btn btn-danger">Delete</button>
+                        </div>
+                        }
 
                     </div>
                     <p>{comment.body}</p>

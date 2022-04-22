@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectImagesList } from '../store/galleries/selector'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { addNewGallery } from '../store/galleries/slice'
 
 
 function CreateNewGallery() {
     const dispatch = useDispatch()
-
+    const history = useHistory()
     const [newGallery, setNewGallery] = useState({
         title:"",
         description:"",
@@ -16,7 +16,15 @@ function CreateNewGallery() {
     const handleSubmit = (e) => {
         e.preventDefault()
         
-        dispatch(addNewGallery({newGallery}))
+        dispatch(addNewGallery({
+            galleryData: newGallery,
+            meta: {
+                    onSuccess: () => {
+                        history.push("/")
+                    }
+                }
+            
+        }))
     }
 
     const addInputField = () => {
@@ -32,6 +40,18 @@ function CreateNewGallery() {
                 ...newGallery.images_url.slice(index+1,newGallery.images_url.length),
             ]
         })
+    }
+
+    const moveUp = (index) => {
+      
+        setNewGallery({
+            ...newGallery,
+            images_url: [
+                ...newGallery.images_url.slice(0, index-1),
+                newGallery.images_url[index]
+            ]
+        })
+
     }
 
 
@@ -58,7 +78,9 @@ function CreateNewGallery() {
                 {newGallery.images_url.map((img,index)=>(
                     <div key={index} className="form-group d-flex">
                         <input value={img} type="text" onChange={({target})=> editImageUrl(index,target.value)} className='form-control w-75' name=""  />
-                        <button  type='button' className='btn btn-info ml-2'>&uarr;</button>
+                        {index>0 &&
+                        <button type='button' onClick={()=>moveUp(index)} className='btn btn-info ml-2'>&uarr;</button>
+                        }
                     </div>
                 ))}
             
