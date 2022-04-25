@@ -99,7 +99,6 @@ function* allGalleries(action) {
     function* addGallery(action) {
         try {
             const data = yield call(galleryService.createGallery, action.payload.galleryData)
-            console.log('nova galerija', data);
             yield put(addNewGalleryToLists(data))
             if (action.payload.meta.onSuccess){
                 yield call(action.payload.meta.onSuccess)

@@ -57,7 +57,6 @@ export const galleriesSlice = createSlice({
       state.myGalleries= [...state.myGalleries, ...action.payload]
     },
     addNewGalleryToLists: (state, action) => {
-      state.myGalleries = [...state.myGalleries, action.payload]
       state.galleriesList = [...state.galleriesList, action.payload]
     },
     setValueToMyGalleriesListCheck: (state, action)=>{
