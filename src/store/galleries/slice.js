@@ -33,7 +33,7 @@ export const galleriesSlice = createSlice({
   },
   reducers: {
     setGalleriesList: (state,action) => {
-        state.galleriesList = [...state.galleriesList, ...action.payload]
+      state.galleriesList = [...state.galleriesList, ...action.payload]
     },
     setValueToGalleryListCheck: (state, action)=>{
       state.galleriesListCheck = action.payload
@@ -51,9 +51,6 @@ export const galleriesSlice = createSlice({
       state.authorsGallPageNum+=1
 },
     setSingleGallery: (state,action) =>{
-      // const urlArray = action.payload.images
-      // console.log([...action.payload.images][0].image_url);
-
       state.singleGallery = action.payload
     },
     setMyGalleries: (state,action) => {

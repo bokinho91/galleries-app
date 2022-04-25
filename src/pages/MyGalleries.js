@@ -17,7 +17,7 @@ useEffect(() => {
     meta: "notButton",
     flag: flag
   }))
-}, [])
+}, [galleriesList])
 
 
 

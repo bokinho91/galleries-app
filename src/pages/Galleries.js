@@ -18,7 +18,7 @@ function Galleries() {
         meta: "notButton",
         flag: flag
       })) 
-  }, [])
+  }, [galleriesList])
   
   
 

@@ -80,7 +80,6 @@ function* allGalleries(action) {
                 const data = yield call(galleryService.getAuthorsGalleries, action.payload.data)
                 yield put(setAuthorId(action.payload.data.id))
                 yield put(setAuthorsGalleries(data))
-                yield put(authorsGallPageNumIncrement())
                 yield put(setValueToAuthorsGalleriesListCheck(true))
             }
             if(action.payload.meta==="Button" && action.payload.flag===true){
@@ -129,6 +128,7 @@ function* filterText(action){
 function* galleryEdit(action){
     try {
         const data = yield call(galleryService.editGallery, action.payload.galleryData)
+        console.log(data);
         if (action.payload.meta.onSuccess) {
             yield call(action.payload.meta.onSuccess)
         }

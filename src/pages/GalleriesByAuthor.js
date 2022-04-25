@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useParams } from 'react-router-dom/cjs/react-router-dom.min'
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
 import FilterGalleries from '../components/FilterGalleries'
 import GalleryCard from '../components/GalleryCard'
 import { selectAuthorsGalleries,selectAuthorsGalleryPageNumber,selectAuthorId,selectAuthorsGalleriesListChecker } from '../store/galleries/selector'
-import { getAuthorsGalleries, setAuthorsGalleriesEmpty, setValueToAuthorsGalleriesListCheck } from '../store/galleries/slice'
+import { getAuthorsGalleries } from '../store/galleries/slice'
 
 
 function GalleriesByAuthor() {
@@ -14,22 +14,20 @@ function GalleriesByAuthor() {
     const pageNumber = useSelector(selectAuthorsGalleryPageNumber)
     const authorId = useSelector(selectAuthorId)
     const flag = useSelector(selectAuthorsGalleriesListChecker)
-    const location = useLocation()
 
-    console.log('pagenum',pageNumber);
-    console.log('flag',flag);
-    setValueToAuthorsGalleriesListCheck(false)
-    setAuthorsGalleriesEmpty()   
+
+
+
 useEffect(() => {
    
    
     dispatch(getAuthorsGalleries({
     authorId,
-    data: {pageNumber, id},
+    data: {pageNumber:0, id},
     meta: "notButton",
-    flag
+    flag:false
   }))
-}, [location])
+}, [])
 
 
     

@@ -17,7 +17,6 @@ function EditGallery() {
         images_url:[...galleryData.images.map(img=>img.image_url)]
     })
     
-    console.log(gallery.images_url);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -37,6 +36,10 @@ function EditGallery() {
 const addInputField = () => {
         setGallery({...gallery, images_url: [...gallery.images_url, '']})
  }
+
+ const removeInputField = () => {
+    setGallery({...gallery, images_url: [...gallery.images_url.slice(0,-1)]})
+}
 
  function editImageUrl(index, url) {
      setGallery({
@@ -76,6 +79,9 @@ const addInputField = () => {
                         {/* {index>0 &&
                             <button type='button' onClick={()=>moveUp(index)} className='btn btn-info ml-2'>&uarr;</button>
                         } */}
+                        {index===gallery.images_url.length-1 &&
+                        <button type='button' className="btn btn-danger" onClick={removeInputField}>X</button>
+                            }
                     </div>
                 ))}
             

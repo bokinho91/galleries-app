@@ -26,7 +26,7 @@ function App() {
     if(localStorage.key("token")){
       dispatch(getActiveUser())
     }
-  }, []);
+  }, [token]);
   return (
     <div className="App">
           <Router>
