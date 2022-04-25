@@ -18,7 +18,6 @@ function SingleGallery() {
     const gallery = useSelector(selectSingleGallery)
     const activeUser= useSelector(selectActiveUser)
     const history=useHistory()
-
     useEffect(() => {
       dispatch(getSingleGallery(id))
       dispatch(getComments(id))

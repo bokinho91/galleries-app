@@ -11,6 +11,7 @@ const middlewareActions = {
     editGallery: () => {},
     deleteGallery: () => {},
     resetAuthorsGalleriesData: () => {},
+    resetSearchedText: () => {},
 };
 
 
@@ -50,6 +51,9 @@ export const galleriesSlice = createSlice({
       state.authorsGallPageNum+=1
 },
     setSingleGallery: (state,action) =>{
+      // const urlArray = action.payload.images
+      // console.log([...action.payload.images][0].image_url);
+
       state.singleGallery = action.payload
     },
     setMyGalleries: (state,action) => {
@@ -63,7 +67,7 @@ export const galleriesSlice = createSlice({
       state.myGalleriesListCheck= action.payload
     },
     setAuthorsGalleries: (state,action) => {
-      state.authorsGalleries = [...state.authorsGalleries, ...action.payload]
+      state.authorsGalleries = action.payload
     },
     setValueToAuthorsGalleriesListCheck: (state, action) =>{
       state.authorsGalleriesListCheck = action.payload
@@ -77,7 +81,7 @@ export const galleriesSlice = createSlice({
       state.myGalleriesListCheck=false
       state.authorsGalleries=[]
       state.authorsGallPageNum=0
-      
+      state.authorsGalleriesListCheck=false
     },
     resetAuthorsPageNum: (state) =>{
       state.authorsGallPageNum = 0
@@ -119,6 +123,7 @@ export const { loadGalleries,
                 setValueToAuthorsGalleriesListCheck,
                 resetAuthorsGalleriesData,
                 addNewGalleryToLists,
+                resetSearchedText,
               } = galleriesSlice.actions;
 
 export default galleriesSlice.reducer; 

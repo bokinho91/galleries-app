@@ -31,12 +31,12 @@ function Comments() {
                         <div className="author">
                             <small className='mr-2'>Author:</small>
 
-                            {comment &&
+                            {comment.user &&
                             <Link to={`/authors/${comment.user_id}`}>
                                 <strong>
-                                    {activeUser.id===comment.user_id ? 'Posted by me' :
-                                    `${comment.user.first_name} ${comment.user.last_name}`
-                                    }
+                                    
+                                    {`${comment.user.first_name} ${comment.user.last_name}`}
+                                    
                                 </strong>
                             </Link>
                             }

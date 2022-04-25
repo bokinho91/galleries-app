@@ -11,12 +11,13 @@ function EditGallery() {
     const dispatch = useDispatch()
     const history = useHistory()
     const [gallery, setGallery] = useState({
+        id:galleryData.id,
         title:galleryData.title,
         description:galleryData.description,
-        images_url:[...galleryData.images]
+        images_url:[...galleryData.images.map(img=>img.image_url)]
     })
     
-    
+    console.log(gallery.images_url);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -32,7 +33,8 @@ function EditGallery() {
         }))
     }
 
-    const addInputField = () => {
+
+const addInputField = () => {
         setGallery({...gallery, images_url: [...gallery.images_url, '']})
  }
 
@@ -61,7 +63,7 @@ function EditGallery() {
             <div className="form-group">
                 <label htmlFor="title">Gallery description:</label>
                 <textarea name="" value={gallery.description} id="" onChange={({target})=>setGallery({...gallery, description: target.value})} className="form-control" cols="30" rows="5">
-                    
+                    {gallery.description}
                 </textarea>
             </div>
 
@@ -69,8 +71,8 @@ function EditGallery() {
                 <label>Image URL:</label>
                
                 {gallery.images_url.map((img,index)=>(
-                    <div key={img.id} className="form-group d-flex">
-                    <input value={img.image_url} type="text" onChange={({target})=> editImageUrl(index,target.value)} className='form-control w-75' name=""  />
+                    <div key={index} className="form-group d-flex">
+                    <input value={img} type="text" onChange={({target})=> editImageUrl(index,target.value)} className='form-control w-75' name=""  />
                         {/* {index>0 &&
                             <button type='button' onClick={()=>moveUp(index)} className='btn btn-info ml-2'>&uarr;</button>
                         } */}

@@ -1,5 +1,6 @@
 import {call, put, takeLatest} from "redux-saga/effects"
 import galleryService from "../../services/GalleryService";
+import { setErrorsToErrorsList } from "../users/slice";
 import { 
     addNewGallery, 
     loadGalleries, 
@@ -13,7 +14,6 @@ import {
     setSingleGallery,
     setAuthorsGalleries,
     setAuthorId,
-    emptyAuthorsGalleries,
     setAuthorsGalleriesEmpty,
     resetAuthorsPageNum,
     setSearchedText,
@@ -27,7 +27,10 @@ import {
     setValueToAuthorsGalleriesListCheck,
     resetAuthorsGalleriesData,
     addNewGalleryToLists,
+    resetSearchedText,
 } from "./slice";
+
+
 
 //
 function* allGalleries(action) {
@@ -45,7 +48,8 @@ function* allGalleries(action) {
         }
         
     } catch (error) {
-        
+        const err = error.response.data
+        yield put(setErrorsToErrorsList(err))
     }
 }
 
@@ -64,7 +68,8 @@ function* allGalleries(action) {
                 yield put(myGallPageNumIncrement())
             }
         } catch (error) {
-   
+            const err = error.response.data
+            yield put(setErrorsToErrorsList(err))
         }
     }
 
@@ -84,7 +89,8 @@ function* allGalleries(action) {
                 yield put(authorsGallPageNumIncrement())
             }
         } catch (error) {
-   
+            const err = error.response.data
+            yield put(setErrorsToErrorsList(err))
         }
     }
 
@@ -100,7 +106,8 @@ function* allGalleries(action) {
                 yield call(action.payload.meta.onSuccess)
             }
         } catch (error) {
-            
+            const err = error.response.data
+            yield put(setErrorsToErrorsList(err))
         }
 }
 
@@ -110,36 +117,24 @@ function* singleGallery(action) {
         const data = yield call(galleryService.getOneGallery, action.payload)
         yield put(setSingleGallery(data))
         } catch (error) {
-            
+            const err = error.response.data
+            yield put(setErrorsToErrorsList(err))
         }
 }
 
-
-function* emptyAuthorsGall(){
-    try {
-        yield put(setAuthorsGalleriesEmpty())
-        yield put(resetAuthorsPageNum())
-    } catch (error) {
-        
-    }
-}
-
 function* filterText(action){
-    try {
         yield put(setSearchedValue(action.payload))
-    } catch (error) {
-        
-    }
 }
 
-function* edit(action){
+function* galleryEdit(action){
     try {
         const data = yield call(galleryService.editGallery, action.payload.galleryData)
         if (action.payload.meta.onSuccess) {
             yield call(action.payload.meta.onSuccess)
         }
     } catch (error) {
-        
+        const err = error.response.data
+        yield put(setErrorsToErrorsList(err))
     }
 }
 
@@ -151,19 +146,20 @@ function* galleryDelete(action){
             yield call(action.payload.meta.onSuccess)
         }
     } catch (error) {
-        
+        const err = error.response.data
+        yield put(setErrorsToErrorsList(err))
     }
 }
 
 
 function* resetAuthor(){
-    try {
         yield put(setValueToAuthorsGalleriesListCheck(false))
-        yield put( setAuthorsGalleriesEmpty())
-        
-    } catch (error) {
-        
-    }
+        yield put( setAuthorsGalleriesEmpty())  
+        yield put(resetAuthorsPageNum())
+}
+
+function* resetSearch(){
+    yield put(setSearchedText(""))
 }
 
 
@@ -174,9 +170,9 @@ export function* watchForSagas(){
     yield takeLatest(getSingleGallery.type, singleGallery)
     yield takeLatest(getMyGalleries.type, myGalleries)
     yield takeLatest(getAuthorsGalleries.type, authorsGalleries)
-    yield takeLatest(emptyAuthorsGalleries.type, emptyAuthorsGall)
     yield takeLatest(setSearchedText.type, filterText)
-    yield takeLatest(editGallery.type, edit)
+    yield takeLatest(editGallery.type, galleryEdit)
     yield takeLatest(deleteGallery.type, galleryDelete)
     yield takeLatest(resetAuthorsGalleriesData.type, resetAuthor)
+    yield takeLatest(resetSearchedText.type, resetSearch)
 }

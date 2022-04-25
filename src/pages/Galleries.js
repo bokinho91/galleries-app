@@ -25,7 +25,7 @@ function Galleries() {
   return (
     <div>
 
-    {galleriesList.length>0 &&
+    {galleriesList &&
     <FilterGalleries/>
     }
 
@@ -39,7 +39,7 @@ function Galleries() {
        : <h1>There is no Galleries to show</h1>}
       </div>
 
-      {galleriesList.length>0  &&
+      {galleriesList.length>=10  &&
             <div className="load-more"> 
                <button className="btn btn-success"  onClick={()=>dispatch(loadGalleries({data:pageNumber, meta:"Button", flag:flag}))}>
                   Load more galleries

@@ -63,7 +63,7 @@ function Nav() {
 
         
             <div className="user-data">
-            {isAuthenticated && 
+            {activeUser && 
             <span>{`${activeUser.firstName} ${activeUser.lastName}`}</span>
             }
         

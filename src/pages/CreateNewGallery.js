@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import Errors from '../components/Errors'
 import { addNewGallery } from '../store/galleries/slice'
+import { selectErrors } from '../store/users/selector'
+import { setErrorsToErrorsList } from '../store/users/slice'
 
 
 function CreateNewGallery() {
     const dispatch = useDispatch()
     const history = useHistory()
+    const location = useLocation()
+    const errors = useSelector(selectErrors)
     const [newGallery, setNewGallery] = useState({
         title:"",
         description:"",
@@ -15,7 +21,7 @@ function CreateNewGallery() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        
+        setErrorsToErrorsList([])
         dispatch(addNewGallery({
             galleryData: newGallery,
             meta: {
@@ -46,11 +52,14 @@ function CreateNewGallery() {
     }
 
 
+    useEffect(() => {
+        dispatch(setErrorsToErrorsList([]))
+    }, [location])
    
 
 
   return (
-    <div className="d-flex align-items-center justify-content-center">
+    <div className="d-flex align-items-center justify-content-center flex-column">
 
     <div className='col-md-6'>
         <form onSubmit={(e)=>handleSubmit(e)}>
@@ -74,8 +83,8 @@ function CreateNewGallery() {
                         
                         {newGallery.images_url.length > 1 && 
                         <div className='d-flex justify-content-between align-items-center'>
-                        <button type='button'  className='btn btn-info ml-2'>&uarr;</button>
-                        <button type='button'  className='btn btn-info ml-2'>&darr;</button>
+                        {/* <button type='button'  className='btn btn-info ml-2'>&uarr;</button>
+                        <button type='button'  className='btn btn-info ml-2'>&darr;</button> */}
                             {index===newGallery.images_url.length-1 &&
                         <button type='button' className="btn btn-danger" onClick={removeInputField}>X</button>
                             }
@@ -90,6 +99,12 @@ function CreateNewGallery() {
             <button type="submit" className="btn btn-success">Add Gallery</button>
         </form>
     </div>
+
+        <div> 
+        {errors.map((error,index)=>(
+            <Errors key={index} errors={error}/>
+            ))}
+        </div>
     </div>  
   )
 }

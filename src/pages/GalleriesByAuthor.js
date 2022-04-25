@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
+import { useLocation, useParams } from 'react-router-dom/cjs/react-router-dom.min'
 import FilterGalleries from '../components/FilterGalleries'
 import GalleryCard from '../components/GalleryCard'
 import { selectAuthorsGalleries,selectAuthorsGalleryPageNumber,selectAuthorId,selectAuthorsGalleriesListChecker } from '../store/galleries/selector'
-import { getAuthorsGalleries, resetAuthorsGalleriesData } from '../store/galleries/slice'
+import { getAuthorsGalleries, setAuthorsGalleriesEmpty, setValueToAuthorsGalleriesListCheck } from '../store/galleries/slice'
 
 
 function GalleriesByAuthor() {
@@ -14,17 +14,22 @@ function GalleriesByAuthor() {
     const pageNumber = useSelector(selectAuthorsGalleryPageNumber)
     const authorId = useSelector(selectAuthorId)
     const flag = useSelector(selectAuthorsGalleriesListChecker)
+    const location = useLocation()
 
+    console.log('pagenum',pageNumber);
+    console.log('flag',flag);
+    setValueToAuthorsGalleriesListCheck(false)
+    setAuthorsGalleriesEmpty()   
 useEffect(() => {
-    if(authorId!==id){
-        dispatch(resetAuthorsGalleriesData())
-    }
-  dispatch(getAuthorsGalleries({
+   
+   
+    dispatch(getAuthorsGalleries({
+    authorId,
     data: {pageNumber, id},
     meta: "notButton",
-    flag: flag
+    flag
   }))
-}, [])
+}, [location])
 
 
     
@@ -32,7 +37,10 @@ useEffect(() => {
     <div>
   <div>
 
-  <FilterGalleries/>
+  {galleriesList &&
+      <FilterGalleries/>
+    }
+  
     <div className='row d-flex justify-content-center pl-2 pr-2'>
        {galleriesList ? 
        
@@ -43,11 +51,13 @@ useEffect(() => {
     }
       </div>
 
+            {galleriesList>=10 &&
             <div className="load-more"> 
                <button className="btn btn-success"  onClick={()=>dispatch(getAuthorsGalleries({data: {pageNumber,id},meta: "Button",flag: flag}))}>
                   Load more galleries
                </button>
             </div>
+            }
     
     </div>
 

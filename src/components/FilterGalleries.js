@@ -1,14 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setSearchedText } from '../store/galleries/slice'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import { setSearchedText, resetSearchedText } from '../store/galleries/slice'
 
 function FilterGalleries() {
     const dispatch = useDispatch()
+    const location = useLocation()
     const [searched, setSearched] = useState("")
     const searchGalleries = (e) => {
         e.preventDefault()
         dispatch(setSearchedText(searched))
       }
+
+ useEffect(() => {
+    dispatch(resetSearchedText())
+ }, [location])
+      
 
 
   return (

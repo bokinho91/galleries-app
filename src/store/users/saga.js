@@ -55,7 +55,8 @@ function* logout(action) {
             }
       
     } catch (error) {
-        console.log(error);
+        const err = error.response.data
+        yield put(setErrorsToErrorsList(err))
     }
 }
 
@@ -64,8 +65,9 @@ function* handleGetActiveUser() {
         const activeUser = yield call(userService.getActiveUser) 
         yield put(setActiveUser(activeUser))
         yield put(setUserToken())
-    }catch{
-
+    }catch(error){
+        const err = error.response.data
+        yield put(setErrorsToErrorsList(err))
     }
 }
 
