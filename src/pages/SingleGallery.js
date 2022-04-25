@@ -72,9 +72,11 @@ function SingleGallery() {
                     <div className="carousel-inner">
                         {gallery.images &&
                             gallery.images.map((image,index)=>(
+                                 <Link to={{pathname:image.image_url}} target="_blank"> 
                                 <div key={image.id} className={`carousel-item ${index===0 ? 'active' :'' }`}>
-                                    <img className="d-block w-100" src={image.image_url} alt="First slide"/>
+                                 <img className="d-block w-100" src={image.image_url} alt="First slide"/>
                                 </div>
+                                 </Link>  
                             ))
                         }
                     </div>
