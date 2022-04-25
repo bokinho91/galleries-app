@@ -1,5 +1,6 @@
 import {call, put, takeLatest} from "redux-saga/effects"
 import userService from "../../services/UserService";
+import { resetGalleriesData } from "../galleries/slice";
 import { getActiveUser, 
         loginUser, 
         logoutUser, 
@@ -7,13 +8,13 @@ import { getActiveUser,
         removeUserToken, 
         setActiveUser, 
         setUserToken,
+        removeActiveUser,
+        setErrorsToErrorsList,
      } from "./slice";
 
 
 function* registerNewUser(action) {
-    console.log("Register new user handler")
     try {
-        console.log(action.payload.credentials);
         const data = yield call(userService.registerUser, action.payload.credentials)
         yield put(setUserToken(data.token))
             if (action.payload.meta.onSuccess) {
@@ -21,8 +22,8 @@ function* registerNewUser(action) {
             }
         
         } catch (error) {
-           
-            console.log(error)
+            const err = error.response.data
+            yield put(setErrorsToErrorsList(err))
         }
 }
 
@@ -31,21 +32,24 @@ function* login(action) {
     try {
         yield call(userService.loginUser, action.payload.credentials)
         yield put(setUserToken())
-
+    
             if (action.payload.meta.onSuccess) {
                 yield call(action.payload.meta.onSuccess)
             }
-      
     } catch (error) {
-        console.log(error);
+        const err = error.response.data
+        yield put(setErrorsToErrorsList(err))
     }
 }
+
 
 
 function* logout(action) {
     try {
         yield call(userService.logoutUser)
         yield put(removeUserToken())
+        yield put(removeActiveUser())
+        yield put(resetGalleriesData())
             if (action.payload.meta.onSuccess) {
                 yield call(action.payload.meta.onSuccess)
             }

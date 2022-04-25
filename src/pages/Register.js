@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { registerUser } from '../store/users/slice'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import Errors from '../components/Errors'
+import { selectErrors } from '../store/users/selector'
+import { registerUser, setErrorsToErrorsList } from '../store/users/slice'
 
 
 function Register() {
 const dispatch = useDispatch()
 const history = useHistory()
-
+const location = useLocation()
+const errors = useSelector(selectErrors)
 const [newUser, setNewUser] = useState({
     first_name:"",
     last_name:"",
@@ -16,6 +20,10 @@ const [newUser, setNewUser] = useState({
     password_confirmation:"",
     terms_and_conditions:false
 })
+
+useEffect(() => {
+    dispatch(setErrorsToErrorsList([]))
+}, [location])
 
 const handleSubmit = (e) => {
     e.preventDefault()
@@ -33,7 +41,7 @@ const handleSubmit = (e) => {
 
 
   return (
-    <div className="d-flex align-items-center justify-content-center">
+    <div className="d-flex align-items-center justify-content-center flex-column">
 
     <div className='col-md-6'>
         <form onSubmit={(e)=>handleSubmit(e)}>
@@ -72,6 +80,12 @@ const handleSubmit = (e) => {
             <button type="submit" className="btn btn-primary">Register</button>
         </form>
     </div>
+
+        <div> 
+        {errors.map((error,index)=>(
+            <Errors key={index} errors={error}/>
+            ))}
+        </div>
     </div>  
   )
 }

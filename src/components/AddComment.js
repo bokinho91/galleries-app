@@ -21,12 +21,12 @@ const handleSubmit = (e) => {
 
   return (
     <div>
-        <form onSubmit={e=>handleSubmit(e)}>
+        <form onSubmit={(e)=>handleSubmit(e)}>
             <div className="form-group">
                 <label htmlFor="comment">Add new comment here:</label>
-                <textarea value={comment} onChange={({target})=>setComment(target.value)} className="form-control" id="comment" rows="3"></textarea>
+                <input value={comment} onChange={({target})=>setComment(target.value)} className="form-control" id="comment" />
 
-                <button className="btn btn-info mt-2">Add Comment</button>
+                <button type='submit' className="btn btn-info mt-2">Add Comment</button>
              </div>
         </form>
     </div>

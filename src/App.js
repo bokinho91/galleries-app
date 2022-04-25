@@ -14,6 +14,7 @@ import { selectToken } from './store/users/selector';
 import MyGalleries from './pages/MyGalleries';
 import { getActiveUser } from './store/users/slice';
 import GalleriesByAuthor from './pages/GalleriesByAuthor';
+import EditGallery from './pages/EditGallery';
 
 function App() {
   const dispatch = useDispatch()
@@ -51,15 +52,19 @@ function App() {
                 {isAuthenticated ? <CreateNewGallery/> : <Redirect to="/" />}
                 </Route>
 
-                {/* <Route path='/authors/:id' exact>
+                <Route path='/edit-gallery/:id' exact>
+                {isAuthenticated ? <EditGallery/> : <Redirect to="/" />}
+                </Route>
+
+                <Route path='/authors/:id' exact>
                 {isAuthenticated ? <GalleriesByAuthor/> : <Redirect to="/" />}
-                </Route> */}
+                </Route>
 
                 <Route path='/galleries/:id' exact>
                 {isAuthenticated ? <SingleGallery/> : <Redirect to="/" />}
                 </Route>
 
-                <Route path='/:myGalleries' exact>
+                <Route path='/my-galleries' exact>
                 {isAuthenticated ? <MyGalleries/> : <Redirect to="/" />}
                 </Route>
 

@@ -1,17 +1,27 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { loginUser } from '../store/users/slice'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import Errors from '../components/Errors'
+import { selectErrors } from '../store/users/selector'
+import { loginUser, setErrorsToErrorsList } from '../store/users/slice'
 
 
 function Login() {
     const dispatch = useDispatch()
     const history = useHistory()
-
+    const location = useLocation()
+    const errors = useSelector(selectErrors)
     const [user, setUser] = useState({
         email:"",
         password:"",
     })
+
+    useEffect(() => {
+        dispatch(setErrorsToErrorsList([]))
+    }, [location])
+    
+
     
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -19,7 +29,7 @@ function Login() {
             credentials: user,
             meta: {
                 onSuccess: () => {
-                    history.push("/home")
+                    history.push("/")
                 }
             }
         }))
@@ -27,7 +37,7 @@ function Login() {
     
     
       return (
-        <div className="d-flex align-items-center justify-content-center">
+        <div className="d-flex align-items-center justify-content-center flex-column">
     
         <div className='col-md-6'>
             <form onSubmit={(e)=>handleSubmit(e)}>
@@ -45,6 +55,12 @@ function Login() {
                
                 <button type="submit" className="btn btn-primary">Log In</button>
             </form>
+        </div>
+
+        <div> 
+        {errors.map((error,index)=>(
+            <Errors key={index} errors={error}/>
+            ))}
         </div>
         </div>  
       )

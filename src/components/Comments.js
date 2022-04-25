@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
+import useFormatDate from '../hooks/FormatDateHook'
 import { selectComments } from '../store/comments/selector'
-import { getComments } from '../store/comments/slice'
+import { deleteComment, getComments } from '../store/comments/slice'
 import { selectActiveUser} from '../store/users/selector'
 
 
@@ -12,13 +13,12 @@ function Comments() {
     const {id} = useParams()
     const dispatch = useDispatch()
     const activeUser = useSelector(selectActiveUser)
-    console.log('active user ' + activeUser.id);
     
-
     useEffect(() => {
-      dispatch(getComments(id))
+        dispatch(getComments(id))
     }, [])
 
+    
   return (
     <div>
         <h3>Comments:</h3>
@@ -31,24 +31,26 @@ function Comments() {
                         <div className="author">
                             <small className='mr-2'>Author:</small>
 
-                            {comment.user &&
+                            {comment &&
                             <Link to={`/authors/${comment.user_id}`}>
                                 <strong>
-                                    {`${comment.user.first_name} ${comment.user.last_name}`}
+                                    {activeUser.id===comment.user_id ? 'Posted by me' :
+                                    `${comment.user.first_name} ${comment.user.last_name}`
+                                    }
                                 </strong>
                             </Link>
                             }
                         </div>
-                        <div className="created-at">
-                            {comment.created_at}
-                        </div>
 
                         {activeUser.id===comment.user_id &&
                         <div className="buttons">
-                            <button className="btn btn-info mr-2">Edit</button>
-                            <button className="btn btn-danger">Delete</button>
+                            <button onClick={()=>dispatch(deleteComment(comment))} className="btn btn-danger">Delete</button>
                         </div>
                         }
+
+                        <div className="created-at">
+                            {useFormatDate(comment.created_at)}
+                        </div>
 
                     </div>
                     <p>{comment.body}</p>

@@ -1,4 +1,6 @@
-
+.App{
+  padding-bottom: 50px;
+}
 .card{
   display: flex;
   flex-direction: column;

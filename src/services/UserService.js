@@ -14,9 +14,9 @@ registerUser = async (userData) =>{
 
 
   loginUser = async (userData) =>{
-    const { data } = await this.client.post("login", userData);
-    localStorage.setItem('token', data.token);
-    return data;
+      const { data } = await this.client.post("login", userData);
+      localStorage.setItem('token', data.token);
+      return data;  
   }
 
   logoutUser = () => {
